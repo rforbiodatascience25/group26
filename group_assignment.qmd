@@ -54,3 +54,4 @@ plot(pca_result$sdev^2 / sum(pca_result$sdev^2),
 ```
 
 #### PCA Analysis
+
