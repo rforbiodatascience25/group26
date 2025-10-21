@@ -53,7 +53,7 @@ polar_art(seed = 1, n = 500, palette = c("green", "black", "white"))
 ```
 
 ## Bhavya
-Bhavya
+Bhavya 2
 
 ## Henrik (s215065)
 
