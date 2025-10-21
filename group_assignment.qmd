@@ -32,7 +32,7 @@ library("ggplot2")
 #### Load data and PCA
 
 ```{r}
-<<<<<<< HEAD
+
 # Load the dataset
 data(USArrests)
 
@@ -45,14 +45,7 @@ pca_result <- prcomp(USArrests, scale = TRUE)
 # View summary
 summary(pca_result)
 
-# Create a biplot
-biplot(pca_result, scale = 0)
 
-# Scree plot to see variance explained
-plot(pca_result$sdev^2 / sum(pca_result$sdev^2), 
-     type = "b", 
-     xlab = "Principal Component", 
-     ylab = "Proportion of Variance Explained")
 
 ```
 
@@ -110,9 +103,11 @@ pca_fit |>
             size = 4,
             fontface = "bold",
             vjust = -0.5) +
+  # Expand axis limits to show all labels
+  coord_cartesian(xlim = c(-4, 4), ylim = c(-3.5, 5)) +
   theme_half_open(12) + 
   background_grid() +
-  labs(title = "PCA Biplot of USArrests",
+  labs(title = "PCA Biplot of USArrests dataset\nPeople arrested and their correlation to different US states",
        x = "PC1",
        y = "PC2")
 ```
@@ -132,3 +127,19 @@ pca_fit |>
        x = "Principal Component",
        y = "Percent Variance Explained")
 ```
+
+### 
+
+### Conclusion
+
+Assault and Murder rates tend to be positively correlated — states with high murder rates usually have high assault rates.
+
+UrbanPop is less strongly correlated with crime rates but still contributes to variation.
+
+Rape shows moderate correlation with the other crime types.
+
+PCA often shows:
+
+PC1 mainly reflects overall crime level (especially assault and murder).
+
+PC2 often distinguishes states by urbanization and rape rates.
