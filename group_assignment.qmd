@@ -15,6 +15,7 @@ execute:
 ---
 
 ### US Arrests - Data description
+The dataset contains statistics about the arrests made per 100,000 residents in 50 states of US in 1973. The arrests are categorised into assault, murder, and rape. It also includes urban population percentage for different states. We carry out PCA on this data to reduce its dimensions and identify some patterns.
 
 # PCA
 
