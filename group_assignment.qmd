@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-# PCA ON FOREST FIRE DATA
+# PCA 
 
 #### Libraries
 
