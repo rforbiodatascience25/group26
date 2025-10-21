@@ -1,5 +1,14 @@
 ---
 title: "group_assignment"
 format: html
+  embed-resources: true
+editor: visual
 ---
 
+# PCA ON FOREST FIRE DATA
+
+#### Libraries
+
+#### Data preparation and cleaning
+
+#### PCA Analysis
