@@ -35,4 +35,125 @@ plot(pca_result$sdev^2 / sum(pca_result$sdev^2),
 
 ```
 
+```{r}
+
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(cowplot)
+
+pca_fit <- USArrests |> 
+  select(where(is.numeric)) |> # retain only numeric columns
+  prcomp(scale = TRUE) # do PCA on scaled data
+
+
+pca_fit |>
+  augment(USArrests) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = outcome)) + 
+  geom_point(size = 1.5) +
+  scale_color_manual(
+    values = c(malignant = "#D55E00", benign = "#0072B2")
+  ) +
+  theme_half_open(12) + background_grid()
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(cowplot)
+
+# Perform PCA
+pca_fit <- USArrests |> 
+  select(where(is.numeric)) |> # retain only numeric columns
+  prcomp(scale = TRUE) # do PCA on scaled data
+
+# Plot without the outcome variable
+pca_fit |>
+  augment(USArrests) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2)) + 
+  geom_point(size = 1.5, color = "#0072B2") +
+  geom_text(aes(label = rownames(USArrests)), 
+            size = 3, vjust = -0.5, hjust = 0.5) +  # Add state labels
+  theme_half_open(12) + 
+  background_grid()
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(cowplot)
+
+# Perform PCA
+pca_fit <- USArrests |> 
+  select(where(is.numeric)) |> # retain only numeric columns
+  prcomp(scale = TRUE) # do PCA on scaled data
+
+# Extract the rotation matrix (loadings) for arrows
+arrow_data <- pca_fit |>
+  tidy(matrix = "rotation") |>
+  pivot_wider(names_from = "PC", 
+              names_prefix = "PC", 
+              values_from = "value") |>
+  mutate(PC1 = PC1 * 5,  # Scale arrows for visibility
+         PC2 = PC2 * 5)
+
+# Plot with arrows
+pca_fit |>
+  augment(USArrests) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2)) + 
+  geom_point(size = 1.5, color = "#0072B2") +
+  geom_text(aes(label = rownames(USArrests)), 
+            size = 3, vjust = -0.5, hjust = 0.5) +
+  # Add arrows for variable loadings
+  geom_segment(data = arrow_data,
+               aes(x = 0, y = 0, xend = PC1, yend = PC2),
+               arrow = arrow(length = unit(0.3, "cm")),
+               color = "#D55E00",
+               linewidth = 1) +
+  # Add labels for arrows
+  geom_text(data = arrow_data,
+            aes(x = PC1, y = PC2, label = column),
+            color = "#D55E00",
+            size = 4,
+            fontface = "bold",
+            vjust = -0.5) +
+  theme_half_open(12) + 
+  background_grid() +
+  labs(title = "PCA Biplot of USArrests",
+       x = "PC1",
+       y = "PC2")
+```
+
+```{r}
+pca_fit |>
+  tidy(matrix = "eigenvalues") |>
+  ggplot(aes(PC, percent)) +
+  geom_col(fill = "#56B4E9", alpha = 0.8) +
+  scale_x_continuous(breaks = 1:9) +
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    expand = expansion(mult = c(0, 0.01))
+  ) +
+  theme_minimal_hgrid(12)
+
+```
+
+```{r}
+pca_fit |>
+  tidy(matrix = "eigenvalues") |>
+  ggplot(aes(PC, percent)) +
+  geom_col(fill = "#56B4E9", alpha = 0.8) +
+  scale_x_continuous(breaks = 1:4) +  # Changed to 1:4 since USArrests has 4 variables
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    expand = expansion(mult = c(0, 0.01))
+  ) +
+  theme_minimal_hgrid(12) +
+  labs(title = "Scree Plot: \nVariance Explained by Principal Components",
+       x = "Principal Component",
+       y = "Percent Variance Explained")
+```
+
 #### PCA Analysis
