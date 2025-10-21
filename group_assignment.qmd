@@ -14,7 +14,7 @@ execute:
   message: false 
 ---
 
-# PCA 
+# PCA
 
 #### Libraries
 
@@ -25,5 +25,29 @@ library("cowplot")
 ```
 
 #### Data preparation and cleaning
+
+```{r}
+# Load the dataset
+data(USArrests)
+
+# View the data
+head(USArrests)
+
+# Perform PCA (scaling is important!)
+pca_result <- prcomp(USArrests, scale = TRUE)
+
+# View summary
+summary(pca_result)
+
+# Create a biplot
+biplot(pca_result, scale = 0)
+
+# Scree plot to see variance explained
+plot(pca_result$sdev^2 / sum(pca_result$sdev^2), 
+     type = "b", 
+     xlab = "Principal Component", 
+     ylab = "Proportion of Variance Explained")
+
+```
 
 #### PCA Analysis
