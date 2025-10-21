@@ -57,3 +57,7 @@ polar_art(seed = 1, n = 500, palette = c("green", "black", "white"))
 ## Henrik (s215065)
 
 text
+
+### New feature
+
+### New analysis
