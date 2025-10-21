@@ -1,13 +1,28 @@
 ---
 title: "group_assignment"
-format: html
-  embed-resources: true
-editor: visual
+authors:   
+    - "s252641 - Bhavya Gudhka"   
+    - "s215065 - Henrik Servais Janssen Knudsen"   
+    - "s253705 - Lun Suša"   
+
+format:
+  html:     
+    embed-resources: true 
+editor: visual 
+execute:   
+  warning: false   
+  message: false 
 ---
 
 # PCA 
 
 #### Libraries
+
+```{r}
+library("tidyverse")
+library("broom")
+library("cowplot")
+```
 
 #### Data preparation and cleaning
 
