@@ -6,21 +6,16 @@ editor: visual
 
 ## Lun
 
-#### New feature / analysis
+## Bhavya
 
-text
+#Be in visual or everything can crash
+
+## New analysis
 
 ```{r}
-#code
+x <- 45
+y <- 64
+z <- x+y
 ```
 
-## Bhavya
-Bhavya 2
-
-## Henrik (s215065)
-
-text
-
-### New feature
-
-### New analysis
+## Henrik
