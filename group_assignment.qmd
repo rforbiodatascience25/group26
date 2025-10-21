@@ -15,6 +15,7 @@ execute:
 ---
 
 ### US Arrests - Data description
+
 The dataset contains statistics about the arrests made per 100,000 residents in 50 states of US in 1973. The arrests are categorised into assault, murder, and rape. It also includes urban population percentage for different states. We carry out PCA on this data to reduce its dimensions and identify some patterns.
 
 # PCA
@@ -28,74 +29,6 @@ library("cowplot")
 ```
 
 #### Load data
-
-```{r}
-# Load the dataset
-data(USArrests)
-
-# View the data
-head(USArrests)
-
-# Perform PCA (scaling is important!)
-pca_result <- prcomp(USArrests, scale = TRUE)
-
-# View summary
-summary(pca_result)
-
-# Create a biplot
-biplot(pca_result, scale = 0)
-
-# Scree plot to see variance explained
-plot(pca_result$sdev^2 / sum(pca_result$sdev^2), 
-     type = "b", 
-     xlab = "Principal Component", 
-     ylab = "Proportion of Variance Explained")
-
-```
-
-```{r}
-
-library(ggplot2)
-library(tidyverse)
-library(broom)
-library(cowplot)
-
-pca_fit <- USArrests |> 
-  select(where(is.numeric)) |> # retain only numeric columns
-  prcomp(scale = TRUE) # do PCA on scaled data
-
-
-pca_fit |>
-  augment(USArrests) |> 
-  ggplot(aes(.fittedPC1, .fittedPC2, color = outcome)) + 
-  geom_point(size = 1.5) +
-  scale_color_manual(
-    values = c(malignant = "#D55E00", benign = "#0072B2")
-  ) +
-  theme_half_open(12) + background_grid()
-```
-
-```{r}
-library(ggplot2)
-library(tidyverse)
-library(broom)
-library(cowplot)
-
-# Perform PCA
-pca_fit <- USArrests |> 
-  select(where(is.numeric)) |> # retain only numeric columns
-  prcomp(scale = TRUE) # do PCA on scaled data
-
-# Plot without the outcome variable
-pca_fit |>
-  augment(USArrests) |> 
-  ggplot(aes(.fittedPC1, .fittedPC2)) + 
-  geom_point(size = 1.5, color = "#0072B2") +
-  geom_text(aes(label = rownames(USArrests)), 
-            size = 3, vjust = -0.5, hjust = 0.5) +  # Add state labels
-  theme_half_open(12) + 
-  background_grid()
-```
 
 ```{r}
 library(ggplot2)
@@ -137,25 +70,13 @@ pca_fit |>
             size = 4,
             fontface = "bold",
             vjust = -0.5) +
+  # Expand axis limits to show all labels
+  coord_cartesian(xlim = c(-4, 4), ylim = c(-3.5, 5)) +
   theme_half_open(12) + 
   background_grid() +
-  labs(title = "PCA Biplot of USArrests",
+  labs(title = "PCA Biplot of USArrests dataset\nPeople arrested and their correlation to different US states",
        x = "PC1",
        y = "PC2")
-```
-
-```{r}
-pca_fit |>
-  tidy(matrix = "eigenvalues") |>
-  ggplot(aes(PC, percent)) +
-  geom_col(fill = "#56B4E9", alpha = 0.8) +
-  scale_x_continuous(breaks = 1:9) +
-  scale_y_continuous(
-    labels = scales::percent_format(),
-    expand = expansion(mult = c(0, 0.01))
-  ) +
-  theme_minimal_hgrid(12)
-
 ```
 
 ```{r}
