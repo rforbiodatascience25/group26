@@ -15,6 +15,7 @@ execute:
 ---
 
 ### US Arrests - Data description
+
 The dataset contains statistics about the arrests made per 100,000 residents in 50 states of US in 1973. The arrests are categorised into assault, murder, and rape. It also includes urban population percentage for different states. We carry out PCA on this data to reduce its dimensions and identify some patterns.
 
 # PCA
@@ -25,6 +26,7 @@ The dataset contains statistics about the arrests made per 100,000 residents in 
 library("tidyverse")
 library("broom")
 library("cowplot")
+library("ggplot2")
 ```
 
 #### Load data and PCA
@@ -53,36 +55,7 @@ plot(pca_result$sdev^2 / sum(pca_result$sdev^2),
 
 ```
 
-<<<<<<< HEAD
-#### 
-=======
 ```{r}
-
-library(ggplot2)
-library(tidyverse)
-library(broom)
-library(cowplot)
-
-pca_fit <- USArrests |> 
-  select(where(is.numeric)) |> # retain only numeric columns
-  prcomp(scale = TRUE) # do PCA on scaled data
-
-
-pca_fit |>
-  augment(USArrests) |> 
-  ggplot(aes(.fittedPC1, .fittedPC2, color = outcome)) + 
-  geom_point(size = 1.5) +
-  scale_color_manual(
-    values = c(malignant = "#D55E00", benign = "#0072B2")
-  ) +
-  theme_half_open(12) + background_grid()
-```
-
-```{r}
-library(ggplot2)
-library(tidyverse)
-library(broom)
-library(cowplot)
 
 # Perform PCA
 pca_fit <- USArrests |> 
@@ -101,10 +74,6 @@ pca_fit |>
 ```
 
 ```{r}
-library(ggplot2)
-library(tidyverse)
-library(broom)
-library(cowplot)
 
 # Perform PCA
 pca_fit <- USArrests |> 
@@ -152,20 +121,6 @@ pca_fit |>
   tidy(matrix = "eigenvalues") |>
   ggplot(aes(PC, percent)) +
   geom_col(fill = "#56B4E9", alpha = 0.8) +
-  scale_x_continuous(breaks = 1:9) +
-  scale_y_continuous(
-    labels = scales::percent_format(),
-    expand = expansion(mult = c(0, 0.01))
-  ) +
-  theme_minimal_hgrid(12)
-
-```
-
-```{r}
-pca_fit |>
-  tidy(matrix = "eigenvalues") |>
-  ggplot(aes(PC, percent)) +
-  geom_col(fill = "#56B4E9", alpha = 0.8) +
   scale_x_continuous(breaks = 1:4) +  # Changed to 1:4 since USArrests has 4 variables
   scale_y_continuous(
     labels = scales::percent_format(),
@@ -176,6 +131,3 @@ pca_fit |>
        x = "Principal Component",
        y = "Percent Variance Explained")
 ```
-
-#### PCA Analysis
->>>>>>> 429ce19c4fb0a60cdfc447069d52a9578f6fef18
